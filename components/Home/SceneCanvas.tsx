@@ -70,9 +70,9 @@ export default function SceneCanvas({ currentY }: Iprops): JSX.Element {
                     className="absolute mid text-white font-stalinist text-[8px] w-full"
                   >
                     <p className="mb-[150px]  w-full text-center">
-                      Others at 26
+                      Drop is coming
                     </p>
-                    <p className="mt-[150px]  w-full text-center">Children, work, business...</p>
+                    <p className="mt-[150px]  w-full text-center">Stay tuned</p>
                   </m.div>
                 )}
               </AnimatePresence>
@@ -102,25 +102,27 @@ export default function SceneCanvas({ currentY }: Iprops): JSX.Element {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    src="./assets/doge_small.png"
+                    src="./assets/base.png"
                     alt="big"
-                    className=" absolute w-[50px] mid"
+                    className=" absolute w-[80px] mid"
                   />
                 )}
               </AnimatePresence>
               <AnimatePresence>
                 {dogeSmall && (
-                  <m.div
+                  <m.a
+                    href="https://twitter.com/onBaseDoge"
+                    target="blank"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="absolute mid text-white font-stalinist text-[8px] w-full"
                   >
-                    <p className="mb-[150px] w-full text-center">Me at 26</p>
-                    <p className="mt-[150px] w-full text-center">
-                      Create  <br /> big doge site
+                    <p className="mb-[150px] w-full text-center">Subscribe</p>
+                    <p className="mt-[150px] w-full text-center flex justify-center">
+                      on twitter
                     </p>
-                  </m.div>
+                  </m.a>
                 )}
               </AnimatePresence>
             </div>

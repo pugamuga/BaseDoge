@@ -48,13 +48,13 @@ export default function PugamugaText(): JSX.Element {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 0.3, x: 0 }}
             transition={{ duration: 1.4 }}
-            className="md:text-lg text-[12px] uppercase  absolute right-0 md:bottom-2 bottom-[-4px] flex items-center "
+            className="md:text-lg text-[8px] uppercase  absolute right-0 md:bottom-2 bottom-[-10px] flex items-center "
           >
             Build on Base
               <img
                 src="./assets/baseicon.png"
                 alt="svg"
-                className=" w-8 h-8 ml-2 mb-[1px]"
+                className=" w-4 h-4 md:w-8 md:h-8 ml-2 mb-[1px]"
               />
           </m.div>
         )}

@@ -9,17 +9,55 @@ import {
 } from "../../state/recoilState";
 import Loader from "../Loader";
 import MobileMenu from "./MobileMenu";
+import { ethers } from "ethers";
+import Web3Modal from "web3modal";
+
+const baseConfig = {
+  chainId: "0x2105", // Base Mainnet
+  chainName: "Base",
+  nativeCurrency: {
+    name: "Base",
+    symbol: "ETH",
+    decimals: 18,
+  },
+  rpcUrls: ["https://base.blockpi.network/v1/rpc/public"],
+};
 
 interface Iprops {
   currentY: number;
 }
 
 export default function HomePage({ currentY }: Iprops): JSX.Element {
+  const [meta, setMeta] = useState<boolean>(false)
+  const [address, setAddress] = useState<string>('')
   const [userWidth, setUserWidth] = useRecoilState<number>(userWidthState);
   const [fakeLoader, setfakeLoader] =
     useRecoilState<number>(fakeProgressLoading);
   const [isDragable, setDragable] = useState<boolean>(false);
   const [heightSite, setHeightSite] = useRecoilState<number>(heightOfSite);
+
+  async function connectWallet() {
+    if (typeof window.ethereum !== "undefined") {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const signer = provider.getSigner();
+        const account = await signer.getAddress();
+
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [baseConfig],
+        });
+        console.log("Connected to account:", account);
+        setMeta(true)
+        setAddress(account.toString())
+      } catch (error) {
+        console.error("User rejected the request:", error);
+      }
+    } else {
+      console.log("MetaMask is not installed!");
+    }
+  }
 
   const dragZones = [
     {
@@ -39,6 +77,12 @@ export default function HomePage({ currentY }: Iprops): JSX.Element {
     console.log(heightSite);
   }, [currentY]);
 
+  function shortenAddress(address:string, chars = 4) {
+    return address
+      ? `${address.slice(0, chars + 2)}...${address.slice(-chars)}`
+      : '';
+  }
+
   return (
     <>
       <AnimatePresence>{fakeLoader < 100 && <Loader />}</AnimatePresence>
@@ -55,20 +99,17 @@ export default function HomePage({ currentY }: Iprops): JSX.Element {
               animate={{ y: 0 }}
               exit={{ y: 0 }}
               transition={{ delay: 3.1, duration: 1.7, easy: "easeOut" }}
-              className=" text-white/100 fixed top-0 pt-2 flex items-center w-screen px-[5vw] justify-between border-b border-white/20 pb-2 font-stalinist z-[22000000] bg-black/30
+              className=" text-white/100 fixed top-0 pt-3 select-none flex items-center w-screen px-[5vw] justify-between  pb-2 font-stalinist z-[22000000] bg-black/30
           backdrop-blur-sm
           "
             >
-              <Link
-                to="home"
-                spy={true}
-                smooth={true}
-                offset={0}
-                duration={500}
+              <a
+                href="https://twitter.com/onBaseDoge"
+                target="blank"
                 className="top-btn "
               >
-                Home
-              </Link>
+                Twitter
+              </a>
               <div>
                 <Link
                   to="exp"
@@ -78,7 +119,7 @@ export default function HomePage({ currentY }: Iprops): JSX.Element {
                   duration={500}
                   className="top-btn"
                 >
-                  Experience
+                  Collection
                 </Link>
               </div>
               <div>
@@ -100,9 +141,10 @@ export default function HomePage({ currentY }: Iprops): JSX.Element {
                   smooth={true}
                   offset={1200}
                   duration={500}
-                  className="top-btn"
+                  className="top-btn bg-white text-black px-2 py-1"
+                  onClick={connectWallet}
                 >
-                  Contact
+                  {!meta?'Connect':shortenAddress(address,2)}
                 </Link>
               </div>
               <div

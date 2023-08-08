@@ -66,13 +66,17 @@ const Home: NextPage = () => {
       <HomePage currentY={currentY} />
       <StartPage currentY={currentY} />
       {/* {userWidth > 770 ? (
-        <div >
-          <div id="home">
-        </div>
+        <>
+          <div>
+            <div id="home" />
+          </div>
+        </>
       ) : (
-        <div id="home" className="overflow-hidden">
-          <StartPage currentY={currentY} />
-        </div>
+        <>
+          <div id="home" className="overflow-hidden">
+            <StartPage currentY={currentY} />
+          </div>
+        </>
       )} */}
     </>
   );
